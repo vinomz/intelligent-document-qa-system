@@ -1,0 +1,8 @@
+fastapi
+uvicorn[standard]
+
+langchain_community
+langchain_chroma
+langchain_google_genai
+
+pypdf

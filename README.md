@@ -33,3 +33,7 @@ cd ai-assistant-internal-docs-rag
 ```bash
 docker compose up --build
 ```
+
+## Demo
+
+![Demo Screenshot](demo.png)

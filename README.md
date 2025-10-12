@@ -24,3 +24,12 @@ A Retrieval-Augmented Generation (RAG) system designed to query internal documen
 ```bash
 git clone https://github.com/vinomz/ai-assistant-internal-docs-rag.git
 cd ai-assistant-internal-docs-rag
+```
+
+2. Put all the internal documents (PDFs) inside the **internal_docs** folder
+
+3. Build the docker container:
+
+```bash
+docker compose up --build
+```

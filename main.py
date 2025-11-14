@@ -5,6 +5,9 @@ from typing import List
 
 from service.assistant import AssistantService
 from config import settings
+from utils.logger import get_logger
+
+logger = get_logger("fastapi_main")
 
 assistant = AssistantService(
     data_path=settings.DEFAULT_DOCS_PATH,
@@ -49,9 +52,9 @@ async def handle_query(input: QueryInput):
         
         # FastAPI handles serializing the dict to the Pydantic response model
         return result
-    except Exception as e:
+    except Exception as err:
         # Handle cases where the RAG chain failed to initialize or execute
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(err))
 
 @app.get("/health")
 def health_check():
@@ -59,6 +62,17 @@ def health_check():
         "status": "ok",
         "assistant_ready": assistant.chain is not None
     }
+
+@app.post("/reindex")
+async def reindex():
+    try:
+        result = await assistant.reindex()
+        assistant.initialize()
+        return result
+    except Exception as err:
+        # Failed to update DB
+        logger.error(f"Error @ reindex | Error ==> {err}")
+        raise HTTPException(status_code=500, detail=str(err))
 
 # Run the Application
 if __name__ == "__main__":

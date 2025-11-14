@@ -1,11 +1,13 @@
-fastapi
-uvicorn[standard]
+fastapi==0.121.2
+uvicorn[standard]==0.38.0
 
-langchain
-langchain_community
-langchain_chroma
-langchain_google_genai
-langchain-text-splitters
+langchain==1.0.5
+langchain_community==0.4.1
+langchain_chroma==1.0.0
+langchain_google_genai==3.0.3
+langchain-text-splitters==1.0.0
 
-pypdf
-docx2txt
+pypdf==6.2.0
+docx2txt==0.9
+
+streamlit

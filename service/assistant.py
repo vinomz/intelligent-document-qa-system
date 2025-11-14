@@ -7,13 +7,18 @@ class AssistantService:
         self.data_path = data_path
         self.chroma_path = chroma_path
         self.chain = None
+        self.manager = None
 
     def initialize(self):
-        manager = ChromaManager(self.data_path, self.chroma_path)
-        vector_store = manager.load_or_create()
+        self.manager = ChromaManager(self.data_path, self.chroma_path)
+        vector_store = self.manager.load_db()
         retriever = vector_store.as_retriever(search_kwargs={"k": 3})
 
         self.chain = RAGChainBuilder(retriever).build()
+    
+    async def reindex(self):
+        result = self.manager.update_index()
+        return result
 
     async def query(self, query: str):
         if not self.chain:

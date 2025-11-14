@@ -1,9 +1,30 @@
 services:
-  ai-assistant-internal:
-    build: .
+  ai-rag-api:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.api
+    container_name: ai-rag-api
     env_file:
       - .env
     environment:
       APP_HOST: 0.0.0.0
+    volumes:
+      - ./docs:/app/docs
+      - ./vector_store/chroma_db:/app/vector_store/chroma_db
+      - ./logs:/app/logs
     ports:
-      - "8000:8000"
+      - "5050:5050"
+
+  streamlit-ui:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.streamlit
+    container_name: streamlit-ui
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./docs:/app/docs
+      - ./vector_store/chroma_db:/app/vector_store/chroma_db
+      - ./logs:/app/logs
+    depends_on:
+      - ai-rag-api

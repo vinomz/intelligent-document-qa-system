@@ -1,13 +1,6 @@
-# Ignore local environment files
-.env
-.env.*
-
-# Ignore Python cache and environment directories
 __pycache__
 *.pyc
 venv
 .venv
-
-# Ignore Git
 .git
 .gitignore

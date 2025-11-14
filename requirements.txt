@@ -1,8 +1,11 @@
 fastapi
 uvicorn[standard]
 
+langchain
 langchain_community
 langchain_chroma
 langchain_google_genai
+langchain-text-splitters
 
 pypdf
+docx2txt

@@ -2,6 +2,7 @@
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from typing import Optional
+import os
 
 class Settings(BaseSettings):
     #FAST API Configs
@@ -15,7 +16,11 @@ class Settings(BaseSettings):
 
     GOOGLE_API_KEY: str
 
+    #Vector Store Configurations
+    EMBEDDING_MODEL: str = "models/text-embedding-004"
+
     #Environment Variables
     model_config  = SettingsConfigDict(env_file=".env", case_sensitive=True)
 
 settings = Settings()
+os.environ["GOOGLE_API_KEY"] = settings.GOOGLE_API_KEY

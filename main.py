@@ -1,14 +1,20 @@
 # main.py
-
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from rag_service import query_assistant, initialize_assistant
-import uvicorn
-import asyncio
 from typing import List
+
+from service.assistant import AssistantService
 from config import settings
 
-# 1. Pydantic Models for API Contract
+assistant = AssistantService(
+    data_path=settings.DEFAULT_DOCS_PATH,
+    chroma_path=settings.DEFAULT_CHROMA_PATH
+)
+
+# Initialize the RAG components
+assistant.initialize()
+
+# Pydantic Models for API Contract
 class QueryInput(BaseModel):
     """Schema for the incoming user query."""
     question: str
@@ -23,7 +29,7 @@ class QueryResponse(BaseModel):
     answer: str
     sources: List[SourceDocument]
 
-# 2. FastAPI Application Instance
+# FastAPI Application Instance
 app = FastAPI(
     title=settings.app_name,
     description=settings.app_description,
@@ -39,7 +45,7 @@ async def handle_query(input: QueryInput):
     """
     try:
         # Call the core RAG service function
-        result = await query_assistant(input.question)
+        result = await assistant.query(input.question)
         
         # FastAPI handles serializing the dict to the Pydantic response model
         return result
@@ -49,15 +55,12 @@ async def handle_query(input: QueryInput):
 
 @app.get("/health")
 def health_check():
-    """Simple endpoint to check if the service is running."""
-    # Check if the RAG chain is ready (a more robust check could be added)
-    from rag_service import RAG_CHAIN
-    
-    if RAG_CHAIN:
-        return {"status": "ok", "assistant_ready": True}
-    else:
-        return {"status": "initializing", "assistant_ready": False}
+    return {
+        "status": "ok",
+        "assistant_ready": assistant.chain is not None
+    }
 
-# 5. Run the Application
+# Run the Application
 if __name__ == "__main__":
+    import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=5050)

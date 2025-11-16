@@ -1,11 +1,10 @@
-# AI Assistant for Internal Documents using RAG
-
-A Retrieval-Augmented Generation (RAG) system designed to query internal documents efficiently.
+# Intelligent Document Q&A System
+A Retrieval-Augmented Generation (RAG) system designed to query documents efficiently.
 
 ## Features
 
 - Query PDFs and other internal documents using AI.
-- Powered by **LangChain**, **Gemini API**, and **ChromaDB** for fast retrieval.
+- Powered by **LangChain**, **Google API**, and **ChromaDB** for fast retrieval.
 - Provides a **FastAPI** endpoint for easy integration.
 - Deployed in a **Docker container** for portability and scalability.
 
@@ -15,6 +14,7 @@ A Retrieval-Augmented Generation (RAG) system designed to query internal documen
 - **Gemini API** – Provides the underlying language model.
 - **ChromaDB** – Vector database for document embeddings.
 - **FastAPI** – Exposes an API endpoint for querying.
+- **Streamlit** – Frontend web UI for interacting with the assistant.
 - **Docker** – Containerized deployment.
 
 ## Usage
@@ -22,8 +22,8 @@ A Retrieval-Augmented Generation (RAG) system designed to query internal documen
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/vinomz/ai-assistant-internal-docs-rag.git
-cd ai-assistant-internal-docs-rag
+git clone https://github.com/vinomz/intelligent-document-qa-system.git
+cd intelligent-document-qa-system
 ```
 
 2. Put all the internal documents (PDFs) inside the **internal_docs** folder

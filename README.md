@@ -28,7 +28,12 @@ git clone https://github.com/vinomz/intelligent-document-qa-system.git
 cd intelligent-document-qa-system
 ```
 
-2. Build and start the docker container:
+2. Create a `.env` File and Add Your Google API Key
+
+Create a new file named `.env` in the root directory of the project and add the following:
+`GOOGLE_API_KEY=<your_api_key>`
+
+3. Build and start the docker container:
 
 ```bash
 docker compose up --build

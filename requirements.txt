@@ -9,5 +9,3 @@ langchain-text-splitters==1.0.0
 
 pypdf==6.2.0
 docx2txt==0.9
-
-streamlit

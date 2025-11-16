@@ -29,8 +29,10 @@ uploaded_files = st.file_uploader(
 
 if uploaded_files:
     if st.button("Reindex Now"):
+        saved_paths = []
         for file in uploaded_files:
             save_path = os.path.join(settings.DEFAULT_DOCS_PATH, file.name)
+            saved_paths.append(save_path)
             with open(save_path, "wb") as f:
                 f.write(file.getbuffer())
 
@@ -40,7 +42,16 @@ if uploaded_files:
         response = requests.post(reindex_url)
         logger.info(f"Db re-index response ==> {response.json()}")
         st.info(f"{response.json()}")
-    
+
+        for path in saved_paths:
+            try:
+                os.remove(path)
+                logger.info(f"Deleted file after reindex: {path}")
+            except Exception as e:
+                logger.error(f"Failed to delete {path}: {e}")
+        
+        st.success("Files cleared from local storage after reindex.")
+
 # ---------------------------
 # 2. Ask a Question
 # ---------------------------

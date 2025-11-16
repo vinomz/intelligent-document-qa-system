@@ -7,6 +7,11 @@ from service.assistant import AssistantService
 from config import settings
 from utils.logger import get_logger
 
+from utils.performance_calc import Metrics
+import time
+
+metrics = Metrics()
+
 logger = get_logger("fastapi_main")
 
 assistant = AssistantService(
@@ -47,9 +52,11 @@ async def handle_query(input: QueryInput):
     and returns a grounded answer.
     """
     try:
+        t0 = time.time()
         # Call the core RAG service function
         result = await assistant.query(input.question)
-        
+        ms = (time.time() - t0) * 1000
+        metrics.total.record(ms)
         # FastAPI handles serializing the dict to the Pydantic response model
         return result
     except Exception as err:
@@ -73,6 +80,10 @@ async def reindex():
         # Failed to update DB
         logger.error(f"Error @ reindex | Error ==> {err}")
         raise HTTPException(status_code=500, detail=str(err))
+
+@app.get("/metrics")
+def get_metrics():
+    return metrics.stats()
 
 # Run the Application
 if __name__ == "__main__":

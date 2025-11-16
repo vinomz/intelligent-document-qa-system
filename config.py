@@ -13,7 +13,7 @@ class Settings(BaseSettings):
     # Defaults
     DEFAULT_DOCS_PATH: str = "docs"
     DEFAULT_CHROMA_PATH: str = "vector_store/chroma_db"
-    DEFAULT_LOGLEVEL: str = "DEBUG"
+    DEFAULT_LOGLEVEL: str = "INFO"
 
     GOOGLE_API_KEY: str
 

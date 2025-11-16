@@ -10,12 +10,14 @@ A Retrieval-Augmented Generation (RAG) system designed to query documents effici
 
 ## Tech Stack
 
-- **LangChain** – Orchestrates the retrieval and generation pipeline.
-- **Gemini API** – Provides the underlying language model.
-- **ChromaDB** – Vector database for document embeddings.
-- **FastAPI** – Exposes an API endpoint for querying.
-- **Streamlit** – Frontend web UI for interacting with the assistant.
-- **Docker** – Containerized deployment.
+- **LangChain** - Orchestrates the retrieval and generation pipeline.
+- **LLM Model** - Google Generative AI API (gemini-2.0-flash)
+- **Embedding Model** - Google Generative AI Embedding (text-embedding-004)
+- **Reranker Model** - FlashRank (ce-esci-MiniLM-L12-v2)
+- **ChromaDB** - Vector database for document embeddings.
+- **FastAPI** - Exposes an API endpoint for querying.
+- **Streamlit** - Frontend web UI for interacting with the assistant.
+- **Docker** - Containerized deployment.
 
 ## Usage
 
@@ -37,3 +39,7 @@ This will:
 - Install all required Python packages inside the container
 - Launch FastAPI at http://localhost:5050
 - Launch Streamlit at http://localhost:8501
+
+## Architecture Diagram
+
+![Architecture Diagram](./image/RAG-Architecture.png)

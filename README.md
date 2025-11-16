@@ -26,14 +26,14 @@ git clone https://github.com/vinomz/intelligent-document-qa-system.git
 cd intelligent-document-qa-system
 ```
 
-2. Put all the internal documents (PDFs) inside the **internal_docs** folder
-
-3. Build the docker container:
+2. Build and start the docker container:
 
 ```bash
 docker compose up --build
 ```
 
-## Demo
+This will:
 
-![Demo Screenshot](demo.png)
+- Install all required Python packages inside the container
+- Launch FastAPI at http://localhost:5050
+- Launch Streamlit at http://localhost:8501

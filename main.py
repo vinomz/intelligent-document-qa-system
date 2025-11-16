@@ -10,6 +10,8 @@ from utils.logger import get_logger
 from utils.performance_calc import Metrics
 import time
 
+from test.concurrency_test import run_test
+
 metrics = Metrics()
 
 logger = get_logger("fastapi_main")
@@ -36,6 +38,7 @@ class QueryResponse(BaseModel):
     """Schema for the final API response."""
     answer: str
     sources: List[SourceDocument]
+    total_tokens: int
 
 # FastAPI Application Instance
 app = FastAPI(
@@ -84,6 +87,15 @@ async def reindex():
 @app.get("/metrics")
 def get_metrics():
     return metrics.stats()
+
+@app.post("/reset_metrics")
+def reset_metrics():
+    metrics.reset_all()
+    return {"message": "Metrics reset"}
+
+@app.post("/concurrency_test")
+async def concurrency_test():
+    return await run_test()
 
 # Run the Application
 if __name__ == "__main__":

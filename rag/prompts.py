@@ -5,6 +5,7 @@ SYSTEM_PROMPT = f"""
 
     Answer ONLY using the provided context.
     Answer should contain atleast 50 words.
+    Check for conflicting information in context and acknowledge.
     If answer not in context, respond:
     {fallback_answer}
 

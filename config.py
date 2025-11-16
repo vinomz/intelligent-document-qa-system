@@ -19,6 +19,16 @@ class Settings(BaseSettings):
 
     # Vector Store Configurations
     EMBEDDING_MODEL: str = "models/text-embedding-004"
+    VECTOR_STORE_K: int = 20
+
+    # LLM Configurations
+    LLM_MODEL: str = "gemini-2.0-flash"
+    LLM_TEMPERATURE: float = 0.1
+
+    # Reranker Configurations
+    RERANKER_MODEL: str = "ce-esci-MiniLM-L12-v2"
+    RERANKER_TOP_N: int = 5
+    RERANKER_TYPE: str = "flashrank"
 
     # Streamlit Configurations
     AI_RAG_API_URL: str = "http://ai-rag-api:5050/"

@@ -25,8 +25,9 @@ class ChromaManager:
             )
 
             self.db.similarity_search("warm-up", k=1)
+            count = self.db._collection.count()
 
-            self.logger.info("Chroma DB is ready.")
+            self.logger.info(f"Chroma DB loaded with {count} chunks.")
             
             return self.db
         except Exception as err:

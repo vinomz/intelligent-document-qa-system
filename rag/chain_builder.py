@@ -4,6 +4,7 @@ from langchain_core.runnables import RunnablePassthrough, RunnableParallel, Runn
 from .prompts import SYSTEM_PROMPT, fallback_answer
 from utils.performance_calc import Metrics
 import time
+from config import settings
 
 metrics = Metrics()
 
@@ -27,19 +28,20 @@ class RAGChainBuilder:
         docs = self.retriever.invoke(input)
 
         total_ms = (time.time() - t0) * 1000   # embed + search
+        chroma_ms = total_ms
 
-        # Subtract Gemini embed latency for this query
         if metrics.embedding.values:  
             last_embed_ms = metrics.embedding.values[-1]
-            chroma_ms = total_ms - last_embed_ms
-        else:
-            chroma_ms = total_ms
+            chroma_ms -= last_embed_ms
+        if metrics.rerank.values:
+            last_rerank_ms = metrics.rerank.values[-1]
+            chroma_ms -= last_rerank_ms
 
         metrics.retrieval.record(chroma_ms)
         return docs
 
     def build(self):
-        raw_llm  = ChatGoogleGenerativeAI(model="gemini-2.0-flash", temperature=0.1)
+        raw_llm  = ChatGoogleGenerativeAI(model=settings.LLM_MODEL, temperature=settings.LLM_TEMPERATURE)
         timed_llm = TimedLLM(raw_llm)
         llm_runnable = RunnableLambda(lambda x: timed_llm.invoke(x))
 

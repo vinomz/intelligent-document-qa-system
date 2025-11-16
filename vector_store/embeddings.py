@@ -13,7 +13,7 @@ class TimedGoogleEmbeddings(GoogleGenerativeAIEmbeddings):
         vec = super().embed_query(text)
         ms = (time.time() - t0) * 1000
 
-        metrics.embedding.record(ms)   # store embedding p50/p95/p99
+        metrics.embedding.record(ms)
         return vec
 
     def embed_documents(self, texts):
